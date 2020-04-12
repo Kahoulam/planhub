@@ -49,6 +49,7 @@ const defaultToolbarItems: string[] = [
   ToobarItemNames.Indent,
   ToobarItemNames.Outdent,
   ToobarItemNames.Divider,
+  ToobarItemNames.Image,
   ToobarItemNames.Table,
   ToobarItemNames.Link,
   ToobarItemNames.Divider,
