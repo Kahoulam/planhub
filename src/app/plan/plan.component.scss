@@ -1,8 +1,30 @@
-mat-form-field {
+::ng-deep .mat-form-field {
     margin-left: 8px;
-    padding-top: 8px;
+    margin-bottom: 18px;
+    width: 270px;
+
+    .mat-form-field-flex {
+        & .mat-form-field-infix {
+            padding: 4px 0px !important;
+        }
+
+        .mat-form-field-outline {
+            margin-top: 16px !important;
+            color: transparent;
+        }
+
+        .mat-form-field-outline-thick {
+            color: rgb(211, 210, 210);
+        }
+    }
 }
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.actions {
+    button {
+        margin-left: 16px;
+    }
 }

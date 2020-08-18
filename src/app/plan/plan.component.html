@@ -3,11 +3,34 @@
         <mat-icon>done</mat-icon>
     </button>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <input matInput [(ngModel)]="plan.title">
     </mat-form-field>
 
+    <button mat-button>File</button>
+    <button mat-button>Edit</button>
+    <button mat-button>View</button>
+    <button mat-button>Insert</button>
+
     <span class="spacer"></span>
+
+    <div class="actions">
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" disabled>
+            <mat-icon>forum</mat-icon>
+        </button>
+
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" disabled>
+            <mat-icon>insert_comment</mat-icon>
+        </button>
+
+        <button mat-raised-button color="accent" disabled>
+            <mat-icon>share</mat-icon> Share
+        </button>
+
+        <button mat-mini-fab color="primary" aria-label="Example icon-button with a heart icon">
+            <mat-icon>face</mat-icon>
+        </button>
+    </div>
 </mat-toolbar>
 
 <editor #editor [initialValue]="plan.content"></editor>
