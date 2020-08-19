@@ -3,14 +3,36 @@
         <mat-icon>done</mat-icon>
     </button>
 
-    <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="plan.title">
-    </mat-form-field>
+    <div>
+        <mat-form-field appearance="outline">
+            <input matInput [(ngModel)]="plan.title">
+        </mat-form-field>
 
-    <button mat-button>File</button>
-    <button mat-button>Edit</button>
-    <button mat-button>View</button>
-    <button mat-button>Insert</button>
+        <div class="menu">
+            <button mat-button [matMenuTriggerFor]="menu">File</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>dialpad</mat-icon>
+                    <span>Redial</span>
+                </button>
+                <button mat-menu-item disabled>
+                    <mat-icon>voicemail</mat-icon>
+                    <span>Check voice mail</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>notifications_off</mat-icon>
+                    <span>Disable alerts</span>
+                </button>
+            </mat-menu>
+
+            <button mat-button disabled>Edit</button>
+            <button mat-button disabled>View</button>
+            <button mat-button disabled>Insert</button>
+            <button mat-button style="text-decoration:underline;">
+                Last edit was seconds ago
+            </button>
+        </div>
+    </div>
 
     <span class="spacer"></span>
 
@@ -27,7 +49,8 @@
             <mat-icon>share</mat-icon> Share
         </button>
 
-        <button mat-mini-fab color="primary" aria-label="Example icon-button with a heart icon">
+        <button mat-mini-fab color="primary" disabled aria-label="Example icon-button with a heart icon"
+            matTooltip="creator@email.com">
             <mat-icon>face</mat-icon>
         </button>
     </div>
