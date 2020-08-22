@@ -6,12 +6,20 @@ interface PlanParams {
     origin?: string;
     formats?: string;
     lastchangeAt?: Date;
+    writer?:String;
+
+    starred?:String[];
+
+    forkFrom?:string;
+
+    // 待討論
+    forkTo?:string[];
 }
 
 /**
  * 教案
  */
-export class Plan {
+export class Plan{
     constructor(params?: PlanParams) {
         Object.assign(this, params);
     }
@@ -44,6 +52,15 @@ export class Plan {
      * 最後修改時間
      */
     lastchangeAt?: Date;
+
+    writer?:String;
+
+    starred?:String[];
+
+    forkFrom?:string;
+
+    // 待討論
+    forkTo?:string[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });
