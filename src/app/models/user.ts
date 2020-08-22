@@ -6,7 +6,7 @@ interface UserParams {
     tags?: string;
     lastchangeAt?: Date;
     subscripted?:string[]; // 訂閱這個user的userIDs
-    plans?:Plan[];
+    plans?:string[];
 }
 
 /**
@@ -40,7 +40,7 @@ export class User{
 
     subscripted?:string[];
 
-    plans?:Plan[];
+    plans?:string[];
 
     static from(json): User {
         return Object.assign(new User(), json, { lastchangeAt: new Date(json.lastchangeAt) });
