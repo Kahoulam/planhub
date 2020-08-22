@@ -21,8 +21,9 @@ export enum Column {
     STARRED_IDS = "starredIds"
 }
 
-export class MockData {
-    static ids:string[]=[Column.MY_PLANS,"nonPlansMan"];
+export class MockData { // TODO: replace with MySQL
+    public static myId=Column.MY_PLANS;
+    public static ids:string[]=[MockData.myId,"nonPlansMan"];
     public static MY_PLANS = <Plan[]>[
         {
             id: "template1", title: "搜尋演算法教案", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids, content:

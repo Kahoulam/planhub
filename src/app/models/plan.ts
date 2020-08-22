@@ -6,14 +6,10 @@ interface PlanParams {
     origin?: string;
     formats?: string;
     lastchangeAt?: Date;
-    writer?:string;
 
     starred?:string[];
 
     forkFrom?:string;
-
-    // 待討論
-    forkTo?:string[];
 }
 
 /**
@@ -53,14 +49,9 @@ export class Plan{
      */
     lastchangeAt: Date;
 
-    writer:string;
-
-    starred:string[];
+    starred:string[]; // 給這個plan星標的userIDs
 
     forkFrom:string;
-
-    // 待討論
-    forkTo:string[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });

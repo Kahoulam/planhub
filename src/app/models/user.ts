@@ -5,7 +5,7 @@ interface UserParams {
     pwd?: string;
     tags?: string;
     lastchangeAt?: Date;
-    starred?:String[];
+    subscripted?:string[]; // 訂閱這個user的userIDs
     plans?:Plan[];
 }
 
@@ -38,7 +38,7 @@ export class User{
      */
     lastchangeAt: Date;
 
-    starred?:String[];
+    subscripted?:string[];
 
     plans?:Plan[];
 
