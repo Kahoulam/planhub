@@ -3,6 +3,8 @@ import { Plan } from './models/plan';
 import { User } from './models/user';
 import { Column } from './constant'
 import { MockData } from './constant';
+import {NotifyService} from './notify.service';
+import { Notify } from './models/notify';
 
 @Injectable({
 	providedIn: 'root'
@@ -10,7 +12,7 @@ import { MockData } from './constant';
 
 export class StorageService {
 
-	constructor() { }
+	constructor(private notifyService:NotifyService) { }
 
 	mockDataInit(){
 		this.set("plans",MockData.PLANS);
@@ -55,6 +57,9 @@ export class StorageService {
 		if (result == null) {
 			return null;
 		}
+		this.notifyService.add(new Notify({
+			title:"get",msg:"get"
+		}))
 
 		return JSON.parse(result);
 	}
@@ -82,6 +87,9 @@ export class StorageService {
 		let oldPlans = this.getPlans(writer);
 		oldPlans.push(newPlan);
 		this.set(writer, oldPlans);
+		this.notifyService.add(new Notify({
+			title:"add Plan",msg:"writer:"+writer+",plan:"+newPlan.id
+		}))
 	}
 
 	setPlans(userId:string,value: Plan[]) {
