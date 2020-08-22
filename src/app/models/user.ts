@@ -1,3 +1,4 @@
+import { Plan } from './plan';
 interface UserParams {
     id?: string;
     nick?: string;
@@ -5,6 +6,7 @@ interface UserParams {
     tags?: string;
     lastchangeAt?: Date;
     starred?:String[];
+    plans?:Plan[];
 }
 
 /**
@@ -37,6 +39,8 @@ export class User{
     lastchangeAt: Date;
 
     starred?:String[];
+
+    plans?:Plan[];
 
     static from(json): User {
         return Object.assign(new User(), json, { lastchangeAt: new Date(json.lastchangeAt) });

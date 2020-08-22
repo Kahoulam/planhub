@@ -6,9 +6,9 @@ interface PlanParams {
     origin?: string;
     formats?: string;
     lastchangeAt?: Date;
-    writer?:String;
+    writer?:string;
 
-    starred?:String[];
+    starred?:string[];
 
     forkFrom?:string;
 
@@ -51,16 +51,16 @@ export class Plan{
     /**
      * 最後修改時間
      */
-    lastchangeAt?: Date;
+    lastchangeAt: Date;
 
-    writer?:String;
+    writer:string;
 
-    starred?:String[];
+    starred:string[];
 
-    forkFrom?:string;
+    forkFrom:string;
 
     // 待討論
-    forkTo?:string[];
+    forkTo:string[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });
