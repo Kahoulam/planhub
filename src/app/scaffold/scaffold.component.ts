@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterLink } from '../constant';
 import { Router } from '@angular/router';
 import { AppService } from '../app.service';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { NotifyService } from '../notify.service';
 import { Notify } from '../models/notify';
 
@@ -15,12 +14,15 @@ export class ScaffoldComponent {
 	constructor(
 		private router: Router,
 		private appService: AppService,
-
-		private _bottomSheet: MatBottomSheet
-	) { }
-
+		public notifyService: NotifyService
+	) {
+		if (this.notifies.length==0) this.subscribeMsgs();
+	 }
+	
+	notifies : Notify[]=[];
 	routerLink = RouterLink;
 	keyword = '';
+	isOpen = false;
 
 	newPlan() {
 		this.appService.getNew().then((id) => {
@@ -34,34 +36,7 @@ export class ScaffoldComponent {
 		this.router.navigate([RouterLink.Search], { queryParams: { q: this.keyword } });
 	}
 
-	openBottomSheet(): void {
-		this._bottomSheet.open(BottomSheet);
-		
-	}
-
-	
-}
-
-@Component({
-	selector: 'bottom-sheet-overview-example-sheet',
-	templateUrl: 'bottom-sheet.component.html',
-})
-export class BottomSheet {
-	notifies : Notify[]=[];
-
-	constructor(
-		private _bottomSheetRef: MatBottomSheetRef<BottomSheet>,
-		public notifyService: NotifyService
-	) {
-		if (this.notifies.length==0) this.subscribeMsgs();
-	 }
-
-	openLink(event: MouseEvent): void {
-		this._bottomSheetRef.dismiss();
-		event.preventDefault();
-	}
-
 	subscribeMsgs() {
 		this.notifyService.getMsgs().subscribe(notifies => this.notifies = notifies)
-	}
+	}	
 }

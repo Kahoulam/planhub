@@ -15,7 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { StarredComponent } from './starred/starred.component';
 import { PlanListComponent } from './plan-list/plan-list.component';
-import { BottomSheet } from './scaffold/scaffold.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { BottomSheet } from './scaffold/scaffold.component';
     SearchComponent,
     StarredComponent,
     PlanListComponent,
-    BottomSheet,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +39,8 @@ import { BottomSheet } from './scaffold/scaffold.component';
     AppComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule { }
