@@ -12,3 +12,9 @@ export enum RouterLink {
     Search = '/search',
     Starred = '/starred',
 }
+
+export enum Column {
+    MY_PLANS="myPlans",
+    EX_PLANS="externalPlans",
+    STARRED_IDS="starredIds"
+}

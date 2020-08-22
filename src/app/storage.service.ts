@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Plan } from './models/plan';
+import { Column } from './constant'
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class StorageService {
 
   constructor() { }
 
   getMyPlans(): Plan[] {
-    let result = this.get("myPlans");
+    let result = this.get(Column.MY_PLANS);
     if (result == null) {
       return [];
     }
@@ -19,14 +21,14 @@ export class StorageService {
 
   setMyPlans(value: Plan[]) {
     if (value == null) {
-      this.remove("myPlans");
+      this.remove(Column.MY_PLANS);
     } else {
-      this.set("myPlans", value);
+      this.set(Column.MY_PLANS, value);
     }
   }
 
   getExternalPlans(): Plan[] {
-    let result = this.get("externalPlans");
+    let result = this.get(Column.EX_PLANS);
     if (result == null) {
       return [];
     }
@@ -36,14 +38,14 @@ export class StorageService {
 
   setExternalPlans(value: Plan[]) {
     if (value == null) {
-      this.remove("externalPlans");
+      this.remove(Column.EX_PLANS);
     } else {
-      this.set("externalPlans", value);
+      this.set(Column.EX_PLANS, value);
     }
   }
 
   getStarredIds(): string[] {
-    let result = this.get<string[]>("starredIds");
+    let result = this.get<string[]>(Column.STARRED_IDS);
     if (result == null) {
       return [];
     }
@@ -53,9 +55,9 @@ export class StorageService {
 
   setStarredIds(value: string[]) {
     if (value == null) {
-      this.remove("starredIds");
+      this.remove(Column.STARRED_IDS);
     } else {
-      this.set("starredIds", value);
+      this.set(Column.STARRED_IDS, value);
     }
   }
 
