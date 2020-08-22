@@ -10,6 +10,7 @@
     right: 0;
 }
 
+
 mat-toolbar {
     @include mat-elevation(4);
 
@@ -17,9 +18,9 @@ mat-toolbar {
         line-height: 1.9;
         margin-bottom: -10px;
         width: 600px;
-
+       
         .mat-form-field-flex {
-            margin-left: 108px;
+
 
             &>.mat-form-field-infix {
                 padding: 4px 0px !important;
@@ -57,3 +58,7 @@ mat-sidenav-container {
         padding: 0 16px;
     }
 }
+
+.mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }

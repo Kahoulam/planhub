@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { StarredComponent } from './starred/starred.component';
 import { PlanListComponent } from './plan-list/plan-list.component';
+import { BottomSheet } from './scaffold/scaffold.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PlanListComponent } from './plan-list/plan-list.component';
     SearchComponent,
     StarredComponent,
     PlanListComponent,
+    BottomSheet,
   ],
   imports: [
     BrowserModule,

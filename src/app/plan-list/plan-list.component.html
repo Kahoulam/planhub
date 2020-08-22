@@ -9,8 +9,9 @@
 
     <mat-card-content>
         <mat-chip-list>
-            <span>
-                <mat-icon>star_border</mat-icon> 1234
+            
+            <span *ngIf=" plan.starred !== undefined ">
+                <mat-icon>star_border</mat-icon> {{ plan.starred.length }}
             </span>
             <span>
                 <mat-icon>visibility</mat-icon> 1234

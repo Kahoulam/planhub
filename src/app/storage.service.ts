@@ -49,23 +49,6 @@ export class StorageService {
 		}
 	}
 
-	// getStarredIds(): string[] {
-	//   let result = this.get<string[]>(Column.STARRED_IDS);
-	//   if (result == null) {
-	//     return [];
-	//   }
-
-	//   return result;
-	// }
-
-	// setStarredIds(value: string[]) {
-	//   if (value == null) {
-	//     this.remove(Column.STARRED_IDS);
-	//   } else {
-	//     this.set(Column.STARRED_IDS, value);
-	//   }
-	// }
-
 	get<T>(key: string): T {
 		let result = localStorage.getItem(key);
 
