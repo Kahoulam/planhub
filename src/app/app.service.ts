@@ -13,7 +13,7 @@ import { MockData } from './constant';
 })
 
 export class AppService {
-	private starredIds: string[];
+	private starredPlans: Plan[];
 	private myPlans: Plan[];
 	private externalPlans: Plan[];
 	private myId: string;
@@ -24,17 +24,18 @@ export class AppService {
 		private crawlService: CrawlService,
 		// private noticeService: NoticeService,
 	) {
+		this.storage.mockDataInit();
 		this.myId = MockData.myId;
-		this.starredIds = this.storage.getStarredPlans(this.myId);
+		this.starredPlans = this.storage.getStarredPlans(this.myId);
 		this.myPlans = this.storage.getPlans(this.myId);
-		this.externalPlans = this.storage.getExternalPlans();
+		// this.externalPlans = this.storage.getExternalPlans();
 
-		if (this.storage.getExternalPlans().length == 0) {
-			this.crawlService.getData().then(plans => {
-				this.externalPlans = plans;
-				this.storage.setExternalPlans(plans);
-			});
-		}
+		// if (this.externalPlans.length == 0) {
+		// 	this.crawlService.getData().then(plans => {
+		// 		this.externalPlans = plans;
+		// 		this.storage.setExternalPlans(plans);
+		// 	});
+		// }
 
 		this.myPlans.sort((a, b) => b.lastchangeAt.getTime() - a.lastchangeAt.getTime());
 
@@ -52,23 +53,20 @@ export class AppService {
 			.catch(getNewId);
 	}
 
-	getStarredIds(): string[] {
-		return this.starredIds;
+	getStarredPlans(): Plan[] {
+		return this.starredPlans;
 	}
 
-	postStarredId(id: string): void {
-		if (!this.starredIds.includes(id)) {
-			this.starredIds.push(id);
+	postStarredPlan(id: string): void {
+		if (!this.starredPlans.find(plan => plan.id===id)) {
 			this.storage.addStarredPlan(this.myId, id);
+			this.starredPlans=this.storage.getStarredPlans(this.myId);
 		}
 	}
 
-	deleteStarredId(id: string): void {
-		const index = this.starredIds.findIndex(p => p === id);
-		if (index > -1) {
-			this.starredIds.splice(index, 1);
-			this.storage.setStarredIds(this.myId, this.starredIds);
-		}
+	deleteStarredPlan(id: string): void {
+		this.storage.deleteStarredPlan(this.myId, id);
+
 	}
 
 	getMyPlans(): Promise<Plan[]> {
@@ -91,9 +89,11 @@ export class AppService {
 	}
 
 	getStarred(): Promise<Plan[]> {
-		let externalPlans = this.externalPlans.filter(plan => this.starredIds.includes(plan.id));
-		let plans = this.myPlans.filter(plan => this.starredIds.includes(plan.id))
+		// let externalPlans = this.externalPlans.filter(plan => this.starredIds.includes(plan.id));
+		// let plans = this.myPlans.filter(plan => this.starredIds.includes(plan.id))
 
-		return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
+		// return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
+		// let plans = this.storage.getStarredPlans(this.myId)
+		return new Promise<Plan[]>(resolve => resolve(this.starredPlans));
 	}
 }

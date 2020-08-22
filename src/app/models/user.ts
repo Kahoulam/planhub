@@ -40,7 +40,7 @@ export class User{
 
     subscripted?:string[];
 
-    plans?:string[];
+    plans:string[];
 
     static from(json): User {
         return Object.assign(new User(), json, { lastchangeAt: new Date(json.lastchangeAt) });

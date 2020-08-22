@@ -12,20 +12,22 @@ export class StorageService {
 
 	constructor() { }
 
+	mockDataInit(){
+		this.set("plans",MockData.PLANS);
+		this.set("users",MockData.USERS);
+	}
+
 	getMyPlans(): Plan[] {
 		let result = this.getPlans(MockData.myId);
 		if (result == null) {
 			return [];
 		}
-		console.log("getMyPlans,"+result.length);
 	}
 
 	setMyPlans(value: Plan[]) {
-		console.log("setMyPlans,"+value.length);
 		if (value == null) {
 			this.remove(MockData.myId);
 		} else {
-			// this.set(Column.MY_PLANS, value);
 			this.setPlans(MockData.myId,value)
 		}
 	}
@@ -36,12 +38,10 @@ export class StorageService {
 			return [];
 		}
 		let ret=Plan.fromArray(result);
-		console.log("getExternalPlans,"+ret.length);
 		return ret;
 	}
 
 	setExternalPlans(value: Plan[]) {
-		console.log("setExternalPlans,"+value.length);
 		if (value == null) {
 			this.remove(Column.EX_PLANS);
 		} else {
@@ -92,19 +92,16 @@ export class StorageService {
 			return [];
 		}
 		let ret=Plan.fromArray(result);
-		console.log("getPlans,"+ret.length)
 		return ret;
 	}
 
 	addPlan(writer: string, newPlan: Plan) {
-		// console.log("addPlan,writer:"+writer+",Plan:"+newPlan.id);
 		let oldPlans = this.getPlans(writer);
 		oldPlans.push(newPlan);
 		this.set(writer, oldPlans);
 	}
 
 	setPlans(userId:string,value: Plan[]) {
-		console.log("setPlans,userId:"+userId+",value:"+value.length);
 		if (value == null) {
 			this.remove(userId);
 		} else {
@@ -112,14 +109,10 @@ export class StorageService {
 		}
 	}
 
-	getStarredPlans(giver: string): string[] {
+	getStarredPlans(giver: string): Plan[] {
 		// 傳入使用者，回傳使用者給過星星的專案
-		let plans=MockData.PLANS;
-		plans=plans.filter(plan => plan.starred.includes(giver)); // TODO: 尋求更好的寫法
-		let ret=[];
-		plans.forEach(plan=> ret.push(plan.id))
-		console.log("getStarredPlans,"+giver+",ret:"+ret.length);
-		return ret;
+		let plans=Plan.fromArray( this.get("plans"));
+		return plans.filter(plan => plan.starred.includes(giver));
 	}
 
 	addStarredPlan(giver: string, planId: string): boolean {
@@ -130,11 +123,13 @@ export class StorageService {
 		return true;
 	}
 
-	setStarredIds(userId:string,value: string[]) { // TODO: remove
-		if (value == null) {
-		  this.remove(userId);
-		} else {
-			value.forEach(planId =>this.addStarredPlan(userId,planId));
+	deleteStarredPlan(user:string,target:string){
+		let starredIds=[]
+		this.getStarredPlans(user).forEach(plan=> starredIds.push(plan.id ));
+		let index = starredIds.findIndex(p => p === target);
+		if (index > -1) {
+			starredIds.splice(index, 1);
+			starredIds.forEach(planId =>this.addStarredPlan(user,planId));
 		}
-	  }
+	}
 }

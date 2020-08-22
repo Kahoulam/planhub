@@ -23,10 +23,9 @@ export enum Column {
 
 export class MockData { // TODO: replace with MySQL
     public static myId=Column.MY_PLANS;
-    public static ids:string[]=[MockData.myId,"nonPlansMan"];
     public static PLANS = <Plan[]>[
         {
-            id: "template1", title: "搜尋演算法教案", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids, content:
+            id: "template1", title: "搜尋演算法教案", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"], content:
                 `# 搜尋演算法教案範例
             
             | 單元名稱 | 搜尋演算法 | 教學設計者 |Mengting |
@@ -56,24 +55,24 @@ export class MockData { // TODO: replace with MySQL
             |教學活動資源|Akinator 神燈精靈遊戲:https://en.akinator.com|
             |教學設備|電腦教室、筆|
             ` },
-        { id: "1", title: "名畫失竊記", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "2", title: "色彩藝拼趣", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "3", title: "新『金』兵日記 色彩好好玩", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "4", title: "櫥窗裡的”衣”想世界", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "5", title: "詩與圖的對話", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "6", title: "彩繪心靈的畫布", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "7", title: "珍重再見", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "8", title: "畢卡索&立體派", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "9", title: "玩美無所不在－美的原理原則", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "10", title: "「有恆」為成功之本小書製作", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "11", title: "相信自己～愛唱歌的鳥", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "12", title: "河水變奏曲", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
-        { id: "13", title: "兩隻老虎狂想曲", lastchangeAt: new Date('2020-03-08'),starred:MockData.ids },
+        { id: "1", title: "只有我的星星", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId]},
+        { id: "2", title: "沒有我的星星", lastchangeAt: new Date('2020-03-08'),starred:["nonPlansMan"] },
+        { id: "3", title: "新『金』兵日記 色彩好好玩", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "4", title: "櫥窗裡的”衣”想世界", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "5", title: "詩與圖的對話", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "6", title: "彩繪心靈的畫布", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "7", title: "珍重再見", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "8", title: "畢卡索&立體派", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "9", title: "玩美無所不在－美的原理原則", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "10", title: "「有恆」為成功之本小書製作", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "11", title: "相信自己～愛唱歌的鳥", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "12", title: "河水變奏曲", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
+        { id: "13", title: "兩隻老虎狂想曲", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"] },
     ];
 
     public static USERS = <User[]>[
-        { id: MockData.ids[0], plans: ["1","2","3","4","5"], lastchangeAt: new Date('2020-03-08') },
-        { id: MockData.ids[1]}
+        { id: MockData.myId, plans: ["template1","1","2","3","4","5"], lastchangeAt: new Date('2020-03-08') },
+        { id:"nonPlansMan"}
     ];
 
 }
