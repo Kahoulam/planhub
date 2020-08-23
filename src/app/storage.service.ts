@@ -20,20 +20,20 @@ export class StorageService {
 		this.set("users",MockData.USERS);
 	}
 
-	getMyPlans(): Plan[] {
-		let result = this.getPlans(MockData.myId);
-		if (result == null) {
-			return [];
-		}
-	}
+	// getMyPlans(): Plan[] {
+	// 	let result = this.getPlans(MockData.myId);
+	// 	if (result == null) {
+	// 		return [];
+	// 	}
+	// }
 
-	setMyPlans(value: Plan[]) {
-		if (value == null) {
-			this.remove(MockData.myId);
-		} else {
-			this.setPlans(MockData.myId,value)
-		}
-	}
+	// setMyPlans(value: Plan[]) {
+	// 	if (value == null) {
+	// 		this.remove(MockData.myId);
+	// 	} else {
+	// 		this.setPlans(MockData.myId,value)
+	// 	}
+	// }
 
 	getExternalPlans(): Plan[] {
 		let result = this.get(Column.EX_PLANS);
@@ -58,9 +58,9 @@ export class StorageService {
 		if (result == null) {
 			return null;
 		}
-		this.notifyService.add(new Notify({
-			title:"get",msg:"get"
-		}))
+		// this.notifyService.add(new Notify({
+		// 	title:"get",msg:"get"
+		// }))
 
 		return JSON.parse(result);
 	}
@@ -73,41 +73,105 @@ export class StorageService {
 		localStorage.removeItem(key);
 	}
 
-	// nesl
+	/* DB */ // TODO: commit to DB function
 
-	getPlans(writer: string): Plan[] {
-		let planIds = User.fromArray(this.get("users")).find(user => user.id==writer).plans;
-		return Plan.fromArray( this.get("plans")).filter(plan=> planIds.includes(plan.id) );
+	private getDBPlans(): Plan[] {
+		return Plan.fromArray( this.get("plans"));
 	}
 
-	addPlan(writer: string, newPlan: Plan) {
-		let oldPlans = this.getPlans(writer);
-		oldPlans.push(newPlan);
-		this.set(writer, oldPlans);
+	private setDBPlans( plans:Plan[]) {
+		return this.set("plans",plans);
+	}
+
+	private getDBUsers(): User[] {
+		return User.fromArray( this.get("users"));
+	}
+
+	private setDBUsers( users:User[]) {
+		return this.set("users",users);
+	}
+
+	/* Plan */
+
+	getPlan(planId: string): Plan {
+		return this.getDBPlans().find(plan=> planId===plan.id);
+	}
+
+	addPlan(userId:string,newPlan: Plan) {
+		this.deletePlan(newPlan.id,function(plans:Plan[]){
+			plans.push(newPlan)
+		})
+
+		let user=this.getUser(userId);
+		user.plans = user.plans.filter(value => value != newPlan.id);
+		user.plans.push( newPlan.id)
+		this.addUser(user);
+		
 		this.notifyService.add(new Notify({
-			title:"add Plan",msg:"writer:"+writer+",plan:"+newPlan.id
+			title:"add Plan",msg:",plan:"+newPlan.id
 		}))
 	}
 
-	setPlans(userId:string,value: Plan[]) {
-		if (value == null) {
-			this.remove(userId);
-		} else {
-			value.forEach(element => this.addPlan(userId, element));
+	deletePlan(planId:string,func){
+		let plans=this.getDBPlans();
+		let index=plans.findIndex(plan=>plan.id==planId)
+		if(index>-1){
+			plans.splice(index, 1);
+			this.notifyService.add(new Notify({
+				title:"delete Plan",msg:",plan:"+planId
+			}))
 		}
+		if(func!=null)func(plans);
+		this.setDBPlans(plans);
 	}
+
+	/* User*/
+
+	getUser(userId: string): User {
+		return this.getDBUsers().find(user=> userId===user.id);
+	}
+
+	addUser(user:User) {
+		this.deleteUser(user.id,function(users:User[]){
+			users.push(user)
+		})
+		this.notifyService.add(new Notify({
+			title:"add User",msg:",user:"+user.id
+		}))
+	}
+
+	deleteUser(userId:string,func) {
+		let users=this.getDBUsers();
+		let index=users.findIndex(user=>user.id==userId)
+		if(index>-1){
+			users.splice(index, 1);
+			this.notifyService.add(new Notify({
+				title:"delete User",msg:",user:"+userId
+			}))
+		}
+		if(func!=null)func(users);
+		this.setDBUsers(users);
+	}
+
+	/* User and Plan */
+
+	getPlans(writer: string): Plan[] {
+		let planIds = User.fromArray(this.get("users")).find(user => user.id==writer).plans;
+		return this.getDBPlans().filter(plan=> planIds.includes(plan.id) );
+	}
+
+	/* Starred */
 
 	getStarredPlans(giver: string): Plan[] {
 		// 傳入使用者，回傳使用者給過星星的專案
-		let plans=Plan.fromArray( this.get("plans"));
-		return plans.filter(plan => plan.starred.includes(giver));
+		return this.getDBPlans().filter(plan => plan.starred.includes(giver));
 	}
 
 	addStarredPlan(giver: string, planId: string): boolean {
 		// 傳入使用者，新增其至plan的「給星星名單」
-		let plans = Plan.fromArray( this.get("plans"));
+		let plans = this.getDBPlans();
 		plans.find(plan =>plan.id==planId).starred.push(giver)
-		this.set("plans",plans); // TODO: move to commit function
+		this.setDBPlans(plans);
 		return true;
 	}
 

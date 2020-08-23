@@ -66,16 +66,20 @@ export class AppService {
 
 	deleteStarredPlan(id: string): void {
 		this.storage.deleteStarredPlan(this.myId, id);
-
 	}
 
 	getMyPlans(): Promise<Plan[]> {
 		return new Promise<Plan[]>(resolve => resolve(this.myPlans));
 	}
 
+	addMyPlan(plan:Plan){
+		this.storage.addPlan(MockData.myId,plan);
+		this.myPlans= this.storage.getPlans(this.myId);
+	}
+
 	deleteMyPlan(id: string): void {
 		this.myPlans = this.myPlans.filter(value => value.id != id);
-		this.storage.setMyPlans(this.myPlans);
+		this.storage.deletePlan(id,null);
 	}
 
 	searchPlan(keyword: string): Promise<Plan[]> {

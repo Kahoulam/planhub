@@ -17,7 +17,7 @@
     </mat-card-header>
 
     <mat-card-content style="padding: 0 15px;">
-        <p>
+        <p *ngIf='plan.content'>
             {{plan.content.substring(0,100) }}
         </p>
         <mat-chip-list aria-label="Fish selection">
@@ -27,10 +27,10 @@
               </mat-chip-list>
         <mat-chip-list>
                 <td style="margin-right:5px;"><mat-icon>star_border</mat-icon></td>
-                <td style="margin-right:10px;">{{ plan.starred.length }} </td>
+                <td style="margin-right:10px;"  *ngIf='plan.starred'>{{ plan.starred.length }} </td>
                 <td  style="margin-right:5px;"><mat-icon>visibility</mat-icon></td>
                 <td style="margin-right:10px;">1234</td>
-                <td  style="margin-right:10px;"> {{ plan.license }}</td>
+                <td  style="margin-right:10px;" *ngIf='plan.license'> {{ plan.license }}</td>
                 <td  style="margin-right:10px;"> {{ "更新時間: "+(plan.lastchangeAt | date:'yyyy/MM/dd') }}</td>
                 <div style="position: absolute;right: 0; margin-right: 20px;">
                     <button mat-icon-button disabled>
