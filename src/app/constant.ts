@@ -1,5 +1,5 @@
 import { Plan } from './models/plan';
-import { User } from './models/User';
+import { User } from './models/user';
 
 export enum Path {
     MyPlans = 'my-plans',
@@ -71,7 +71,7 @@ export class MockData { // TODO: replace with MySQL
     ];
 
     public static USERS = <User[]>[
-        { id: MockData.myId, plans: ["template1","1","2","3","4","5"], lastchangeAt: new Date('2020-03-08') },
+        { id: MockData.myId, plans: ["template1","2","3","4","5"], lastchangeAt: new Date("2020-03-08") },
         { id:"nonPlansMan"}
     ];
 

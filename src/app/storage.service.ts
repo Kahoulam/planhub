@@ -15,6 +15,7 @@ export class StorageService {
 	constructor(private notifyService:NotifyService) { }
 
 	mockDataInit(){
+		console.log("mockDataInit");
 		this.set("plans",MockData.PLANS);
 		this.set("users",MockData.USERS);
 	}
@@ -75,12 +76,8 @@ export class StorageService {
 	// nesl
 
 	getPlans(writer: string): Plan[] {
-		let result = this.get(writer);
-		if (result == null) {
-			return [];
-		}
-		let ret=Plan.fromArray(result);
-		return ret;
+		let planIds = User.fromArray(this.get("users")).find(user => user.id==writer).plans;
+		return Plan.fromArray( this.get("plans")).filter(plan=> planIds.includes(plan.id) );
 	}
 
 	addPlan(writer: string, newPlan: Plan) {
