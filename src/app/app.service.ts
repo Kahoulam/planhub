@@ -13,7 +13,7 @@ import { MockData } from './constant';
 })
 
 export class AppService {
-	private starredPlans: Plan[];
+	private myStarredPlans: Plan[];
 	private myPlans: Plan[];
 	private externalPlans: Plan[];
 	private myId: string;
@@ -26,7 +26,7 @@ export class AppService {
 	) {
 		this.storage.mockDataInit();
 		this.myId = MockData.myId;
-		this.starredPlans = this.storage.getStarredPlans(this.myId);
+		this.myStarredPlans = this.storage.getStarredPlans(this.myId);
 		this.myPlans = this.storage.getPlans(this.myId);
 		// this.externalPlans = this.storage.getExternalPlans();
 
@@ -38,7 +38,6 @@ export class AppService {
 		// }
 
 		this.myPlans.sort((a, b) => b.lastchangeAt.getTime() - a.lastchangeAt.getTime());
-
 	}
 
 	getNew(): Promise<string> {
@@ -54,18 +53,19 @@ export class AppService {
 	}
 
 	getStarredPlans(): Plan[] {
-		return this.starredPlans;
+		return this.myStarredPlans;
 	}
 
 	postStarredPlan(id: string): void {
-		if (!this.starredPlans.find(plan => plan.id===id)) {
-			this.storage.addStarredPlan(this.myId, id);
-			this.starredPlans=this.storage.getStarredPlans(this.myId);
+		if (!this.myStarredPlans.find(plan => plan.id===id)) {
+			this.storage.addStarredPlanId(this.myId, id);
+			this.myStarredPlans=this.storage.getStarredPlans(this.myId);
 		}
 	}
 
 	deleteStarredPlan(id: string): void {
-		this.storage.deleteStarredPlan(this.myId, id);
+		this.storage.deleteStarredPlanId(this.myId, id);
+		this.myStarredPlans=this.storage.getStarredPlans(this.myId);
 	}
 
 	getMyPlans(): Promise<Plan[]> {
@@ -98,6 +98,6 @@ export class AppService {
 
 		// return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
 		// let plans = this.storage.getStarredPlans(this.myId)
-		return new Promise<Plan[]>(resolve => resolve(this.starredPlans));
+		return new Promise<Plan[]>(resolve => resolve(this.myStarredPlans));
 	}
 }

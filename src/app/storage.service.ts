@@ -20,21 +20,6 @@ export class StorageService {
 		this.set("users",MockData.USERS);
 	}
 
-	// getMyPlans(): Plan[] {
-	// 	let result = this.getPlans(MockData.myId);
-	// 	if (result == null) {
-	// 		return [];
-	// 	}
-	// }
-
-	// setMyPlans(value: Plan[]) {
-	// 	if (value == null) {
-	// 		this.remove(MockData.myId);
-	// 	} else {
-	// 		this.setPlans(MockData.myId,value)
-	// 	}
-	// }
-
 	getExternalPlans(): Plan[] {
 		let result = this.get(Column.EX_PLANS);
 		if (result == null) {
@@ -58,10 +43,6 @@ export class StorageService {
 		if (result == null) {
 			return null;
 		}
-		// this.notifyService.add(new Notify({
-		// 	title:"get",msg:"get"
-		// }))
-
 		return JSON.parse(result);
 	}
 
@@ -98,9 +79,7 @@ export class StorageService {
 	}
 
 	addPlan(userId:string,newPlan: Plan) {
-		this.deletePlan(newPlan.id,function(plans:Plan[]){
-			plans.push(newPlan)
-		})
+		this.deletePlan(newPlan.id,newPlan)
 
 		let user=this.getUser(userId);
 		user.plans = user.plans.filter(value => value != newPlan.id);
@@ -112,17 +91,15 @@ export class StorageService {
 		}))
 	}
 
-	deletePlan(planId:string,func){
+	deletePlan(planId:string,replacement:Plan){
 		let plans=this.getDBPlans();
 		let index=plans.findIndex(plan=>plan.id==planId)
 		if(index>-1){
 			plans.splice(index, 1);
-			this.notifyService.add(new Notify({
-				title:"delete Plan",msg:",plan:"+planId
-			}))
+			if(replacement!=null)plans.push(replacement)
+			this.setDBPlans(plans);
 		}
-		if(func!=null)func(plans);
-		this.setDBPlans(plans);
+		
 	}
 
 	/* User*/
@@ -132,56 +109,55 @@ export class StorageService {
 	}
 
 	addUser(user:User) {
-		this.deleteUser(user.id,function(users:User[]){
-			users.push(user)
-		})
+		this.deleteUser(user.id,user)
 		this.notifyService.add(new Notify({
 			title:"add User",msg:",user:"+user.id
 		}))
 	}
 
-	deleteUser(userId:string,func) {
+	deleteUser(userId:string,replacement:User) {
 		let users=this.getDBUsers();
 		let index=users.findIndex(user=>user.id==userId)
 		if(index>-1){
 			users.splice(index, 1);
-			this.notifyService.add(new Notify({
-				title:"delete User",msg:",user:"+userId
-			}))
+			if(replacement!=null) users.push(replacement)
 		}
-		if(func!=null)func(users);
 		this.setDBUsers(users);
+	}
+
+	/* Plan Starred */
+
+	getStarredPlanIds(giver: string): string[] {
+		return Object.values(this.getStarredPlans(giver)).map(
+			function(plan){
+				if(plan.starred.includes(giver)){
+					return plan.id
+				}
+			}
+		);
+	}
+
+	addStarredPlanId(giver: string, planId: string) {
+		let plan=this.getPlan(planId)
+		plan.starred.push(giver)
+		this.deletePlan(planId,plan)
+	}
+
+	deleteStarredPlanId(user:string,target:string){
+		let plan=this.getPlan(target)
+		plan.starred =plan.starred.filter(value => value != user);
+		this.deletePlan(target,plan)
 	}
 
 	/* User and Plan */
 
 	getPlans(writer: string): Plan[] {
-		let planIds = User.fromArray(this.get("users")).find(user => user.id==writer).plans;
+		let planIds =this.getDBUsers().find(user => user.id==writer).plans;
 		return this.getDBPlans().filter(plan=> planIds.includes(plan.id) );
 	}
-
-	/* Starred */
 
 	getStarredPlans(giver: string): Plan[] {
 		// 傳入使用者，回傳使用者給過星星的專案
 		return this.getDBPlans().filter(plan => plan.starred.includes(giver));
-	}
-
-	addStarredPlan(giver: string, planId: string): boolean {
-		// 傳入使用者，新增其至plan的「給星星名單」
-		let plans = this.getDBPlans();
-		plans.find(plan =>plan.id==planId).starred.push(giver)
-		this.setDBPlans(plans);
-		return true;
-	}
-
-	deleteStarredPlan(user:string,target:string){
-		let starredIds=[]
-		this.getStarredPlans(user).forEach(plan=> starredIds.push(plan.id ));
-		let index = starredIds.findIndex(p => p === target);
-		if (index > -1) {
-			starredIds.splice(index, 1);
-			starredIds.forEach(planId =>this.addStarredPlan(user,planId));
-		}
 	}
 }
