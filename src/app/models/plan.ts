@@ -37,7 +37,7 @@ export class Plan{
     /**
     * 標籤
     */
-    tags: string[];
+    tags: string[]=[];
     /**
      * 外部來源網址
      */
@@ -51,11 +51,11 @@ export class Plan{
      */
     lastchangeAt: Date;
 
-    starred:string[]; // 給這個plan星標的userIDs
+    starred:string[]=[]; // 給這個plan星標的userIDs
 
     forkFrom:string;
     license:string;
-    issue:string[];
+    issue:string[]=[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });

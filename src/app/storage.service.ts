@@ -90,10 +90,9 @@ export class StorageService {
 		let index=plans.findIndex(plan=>plan.id==planId)
 		if(index>-1){
 			plans.splice(index, 1);
-			if(replacement!=null)plans.push(replacement)
-			this.setDBPlans(plans);
 		}
-		
+		if(replacement!=null)plans.push(replacement)
+		this.setDBPlans(plans);
 	}
 
 	/* User*/
