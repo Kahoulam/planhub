@@ -3,10 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Plan } from './models/plan';
 import { StorageService } from './storage.service';
 import { CrawlService } from './crawl.service';
-
+import {NotifyService} from './notify.service';
+import { Notify } from './models/notify';
 import { MockData } from './constant';
-
-// source : https://ed.arte.gov.tw/ch/content/m_design_list_1.aspx?PageNo=1
 
 @Injectable({
 	providedIn: 'root'
@@ -22,7 +21,7 @@ export class AppService {
 		private httpClient: HttpClient,
 		private storage: StorageService,
 		private crawlService: CrawlService,
-		// private noticeService: NoticeService,
+		private notifyService: NotifyService,
 	) {
 		this.storage.mockDataInit();
 		this.myId = MockData.myId;
@@ -40,17 +39,7 @@ export class AppService {
 		this.myPlans.sort((a, b) => b.lastchangeAt.getTime() - a.lastchangeAt.getTime());
 	}
 
-	getNew(): Promise<string> {
-		const url = "https://codimd.schl.tw/api/new";
-		let getNewId = (error: HttpErrorResponse) => {
-			return Math.random().toString(16).slice(2);
-			// return error.url.split('/').pop();
-		};
-
-		return this.httpClient.get<string>(url)
-			.toPromise()
-			.catch(getNewId);
-	}
+	/* Starred Plan */
 
 	getStarredPlans(): Plan[] {
 		return this.myStarredPlans;
@@ -60,13 +49,32 @@ export class AppService {
 		if (!this.myStarredPlans.find(plan => plan.id===id)) {
 			this.storage.addStarredPlanId(this.myId, id);
 			this.myStarredPlans=this.storage.getStarredPlans(this.myId);
+
+			this.notifyService.add(new Notify({
+				title:"add starred",msg:",plan:"+id
+			}))
 		}
 	}
 
 	deleteStarredPlan(id: string): void {
 		this.storage.deleteStarredPlanId(this.myId, id);
 		this.myStarredPlans=this.storage.getStarredPlans(this.myId);
+
+		this.notifyService.add(new Notify({
+			title:"delete starred",msg:",plan:"+id
+		}))
 	}
+
+	getStarred(): Promise<Plan[]> {
+		// let externalPlans = this.externalPlans.filter(plan => this.starredIds.includes(plan.id));
+		// let plans = this.myPlans.filter(plan => this.starredIds.includes(plan.id))
+
+		// return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
+		// let plans = this.storage.getStarredPlans(this.myId)
+		return new Promise<Plan[]>(resolve => resolve(this.myStarredPlans));
+	}
+
+	/* My Plan */
 
 	getMyPlans(): Promise<Plan[]> {
 		return new Promise<Plan[]>(resolve => resolve(this.myPlans));
@@ -75,12 +83,22 @@ export class AppService {
 	addMyPlan(plan:Plan){
 		this.storage.addPlan(MockData.myId,plan);
 		this.myPlans= this.storage.getPlans(this.myId);
+
+		this.notifyService.add(new Notify({
+			title:"add plan",msg:",plan:"+plan.id
+		}))
 	}
 
 	deleteMyPlan(id: string): void {
 		this.myPlans = this.myPlans.filter(value => value.id != id);
 		this.storage.deletePlan(id,null);
+
+		this.notifyService.add(new Notify({
+			title:"delete plan",msg:",plan:"+id
+		}))
 	}
+
+	/* Other */
 
 	searchPlan(keyword: string): Promise<Plan[]> {
 		const keywords = keyword.split(" ").filter(text => text != "");
@@ -92,12 +110,15 @@ export class AppService {
 		return new Promise<Plan[]>(resolve => resolve(result));
 	}
 
-	getStarred(): Promise<Plan[]> {
-		// let externalPlans = this.externalPlans.filter(plan => this.starredIds.includes(plan.id));
-		// let plans = this.myPlans.filter(plan => this.starredIds.includes(plan.id))
+	getNew(): Promise<string> {
+		const url = "https://codimd.schl.tw/api/new";
+		let getNewId = (error: HttpErrorResponse) => {
+			return Math.random().toString(16).slice(2);
+			// return error.url.split('/').pop();
+		};
 
-		// return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
-		// let plans = this.storage.getStarredPlans(this.myId)
-		return new Promise<Plan[]>(resolve => resolve(this.myStarredPlans));
+		return this.httpClient.get<string>(url)
+			.toPromise()
+			.catch(getNewId);
 	}
 }

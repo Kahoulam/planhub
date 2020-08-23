@@ -3,8 +3,6 @@ import { Plan } from './models/plan';
 import { User } from './models/user';
 import { Column } from './constant'
 import { MockData } from './constant';
-import {NotifyService} from './notify.service';
-import { Notify } from './models/notify';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,7 +10,7 @@ import { Notify } from './models/notify';
 
 export class StorageService {
 
-	constructor(private notifyService:NotifyService) { }
+	constructor() { }
 
 	mockDataInit(){
 		console.log("mockDataInit");
@@ -85,10 +83,6 @@ export class StorageService {
 		user.plans = user.plans.filter(value => value != newPlan.id);
 		user.plans.push( newPlan.id)
 		this.addUser(user);
-		
-		this.notifyService.add(new Notify({
-			title:"add Plan",msg:",plan:"+newPlan.id
-		}))
 	}
 
 	deletePlan(planId:string,replacement:Plan){
@@ -110,9 +104,6 @@ export class StorageService {
 
 	addUser(user:User) {
 		this.deleteUser(user.id,user)
-		this.notifyService.add(new Notify({
-			title:"add User",msg:",user:"+user.id
-		}))
 	}
 
 	deleteUser(userId:string,replacement:User) {
