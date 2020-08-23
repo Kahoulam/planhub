@@ -2,7 +2,7 @@ interface PlanParams {
     id?: string;
     title?: string;
     content?: string;
-    tags?: string;
+    tags?: string[];
     origin?: string;
     formats?: string;
     lastchangeAt?: Date;
@@ -10,6 +10,8 @@ interface PlanParams {
     starred?:string[];
 
     forkFrom?:string;
+    license?:string;
+    issue?:string[];
 }
 
 /**
@@ -35,7 +37,7 @@ export class Plan{
     /**
     * 標籤
     */
-    tags: string;
+    tags: string[];
     /**
      * 外部來源網址
      */
@@ -52,6 +54,8 @@ export class Plan{
     starred:string[]; // 給這個plan星標的userIDs
 
     forkFrom:string;
+    license:string;
+    issue:string[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });
