@@ -29,14 +29,20 @@ export class PlanListComponent implements OnInit {
   }
 
   isStarred(plan: Plan): boolean {
-    return this.service.getStarredIds().includes(plan.id);
+    return this.getStarredPlanIds().includes(plan.id);
+  }
+
+  getStarredPlanIds(){
+    let ret=[]
+    this.service.getStarredPlans().forEach(plan=> ret.push(plan.id) )
+    return ret;
   }
 
   setStar(plan: Plan): void {
     if (this.isStarred(plan)) {
-      this.service.deleteStarredId(plan.id);
+      this.service.deleteStarredPlan(plan.id);
     } else {
-      this.service.postStarredId(plan.id);
+      this.service.postStarredPlan(plan.id);
     }
   }
 

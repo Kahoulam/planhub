@@ -2,16 +2,22 @@ interface PlanParams {
     id?: string;
     title?: string;
     content?: string;
-    tags?: string;
+    tags?: string[];
     origin?: string;
     formats?: string;
     lastchangeAt?: Date;
+
+    starred?:string[];
+
+    forkFrom?:string;
+    license?:string;
+    issue?:string[];
 }
 
 /**
  * 教案
  */
-export class Plan {
+export class Plan{
     constructor(params?: PlanParams) {
         Object.assign(this, params);
     }
@@ -31,7 +37,7 @@ export class Plan {
     /**
     * 標籤
     */
-    tags: string;
+    tags: string[]=[];
     /**
      * 外部來源網址
      */
@@ -43,7 +49,13 @@ export class Plan {
     /**
      * 最後修改時間
      */
-    lastchangeAt?: Date;
+    lastchangeAt: Date;
+
+    starred:string[]=[]; // 給這個plan星標的userIDs
+
+    forkFrom:string;
+    license:string;
+    issue:string[]=[];
 
     static from(json): Plan {
         return Object.assign(new Plan(), json, { lastchangeAt: new Date(json.lastchangeAt) });

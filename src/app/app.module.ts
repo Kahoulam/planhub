@@ -43,6 +43,8 @@ import { ViewingPlanComponent } from './viewing-plan/viewing-plan.component';
     AppComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule { }

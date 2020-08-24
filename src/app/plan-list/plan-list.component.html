@@ -1,54 +1,66 @@
 <mat-card *ngFor="let plan of dataSource">
     <mat-card-header>
-        <mat-card-title>{{plan.title}}</mat-card-title>
-
-        <mat-card-subtitle>
-            {{ plan.formats }}
-        </mat-card-subtitle>
+        <mat-card-title>
+            <!-- <a href="#" style="text-decoration:none; color:cornflowerblue">{{plan.title}}</a> -->
+            <span>{{plan.title}}</span>
+            <span style="margin-left:15px ;font-size: 15px;">writer</span>
+            <span style="margin-left:15px ;font-size: 15px;">fork from</span>
+            <td style="position: absolute;right: 0; margin-right: 20px;top: 10px;" *ngIf='plan.issue'>
+                <button mat-icon-button >
+                    <mat-icon>question_answer</mat-icon>
+                    {{plan.issue.length }}
+                </button>
+               
+            </td>
+        </mat-card-title>
+        
     </mat-card-header>
 
-    <mat-card-content>
+    <mat-card-content style="padding: 0 15px;">
+        <p *ngIf='plan.content'>
+            {{plan.content.substring(0,100) }}
+        </p>
+        <mat-chip-list aria-label="Fish selection">
+                <mat-chip color="primary" *ngIf='plan.formats'>{{ plan.formats}} </mat-chip>
+
+                <mat-chip *ngFor="let tag of plan.tags">{{tag}}</mat-chip>
+              </mat-chip-list>
         <mat-chip-list>
-            <span>
-                <mat-icon>star_border</mat-icon> 1234
-            </span>
-            <span>
-                <mat-icon>visibility</mat-icon> 1234
-            </span>
+                <td style="margin-right:5px;"><mat-icon>star_border</mat-icon></td>
+                <td style="margin-right:10px;"  *ngIf='plan.starred'>{{ plan.starred.length }} </td>
+                <td  style="margin-right:5px;"><mat-icon>visibility</mat-icon></td>
+                <td style="margin-right:10px;">1234</td>
+                <td  style="margin-right:10px;" *ngIf='plan.license'> {{ plan.license }}</td>
+                <td  style="margin-right:10px;"> {{ "更新時間: "+(plan.lastchangeAt | date:'yyyy/MM/dd') }}</td>
+                <div style="position: absolute;right: 0; margin-right: 20px;">
+                    <button mat-icon-button disabled>
+                        <mat-icon>link</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button disabled>
+                        <mat-icon>group_add</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button disabled>
+                        <mat-icon>cloud_download</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button (click)="setStar(plan)">
+                        <mat-icon>{{ isStarred(plan) ? "star" : "star_border" }}</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button *ngIf="!plan.isExternal" [routerLink]="[routerLink.ViewingPlan, 'user001', plan.title]">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button *ngIf="!plan.isExternal" [routerLink]="[routerLink.EditingPlan, plan.id]">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+            
+                    <button mat-icon-button *ngIf="!plan.isExternal" (click)="deletePlan(plan)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
         </mat-chip-list>
     </mat-card-content>
-
-    <mat-card-actions align="end">
-        <button mat-icon-button disabled>
-            <mat-icon>link</mat-icon>
-        </button>
-
-        <button mat-icon-button disabled>
-            <mat-icon>group_add</mat-icon>
-        </button>
-
-        <button mat-icon-button disabled>
-            <mat-icon>cloud_download</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="setStar(plan)">
-            <mat-icon>{{ isStarred(plan) ? "star" : "star_border" }}</mat-icon>
-        </button>
-
-        <button mat-icon-button *ngIf="plan.isExternal" (click)="openPage(plan)">
-            <mat-icon>visibility</mat-icon>
-        </button>
-
-        <button mat-icon-button *ngIf="!plan.isExternal" [routerLink]="[routerLink.ViewingPlan, 'user001', plan.title]">
-            <mat-icon>visibility</mat-icon>
-        </button>
-
-        <button mat-icon-button *ngIf="!plan.isExternal" [routerLink]="[routerLink.EditingPlan, plan.id]">
-            <mat-icon>edit</mat-icon>
-        </button>
-
-        <button mat-icon-button *ngIf="!plan.isExternal" (click)="deletePlan(plan)">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </mat-card-actions>
 </mat-card>

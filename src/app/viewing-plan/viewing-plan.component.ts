@@ -3,6 +3,7 @@ import { ViewerComponent } from '../viewer/viewer.component';
 import { ActivatedRoute } from '@angular/router';
 import { Plan } from '../models/plan';
 import { StorageService } from '../storage.service';
+import { MockData } from '../constant';
 
 export declare type Params = {
   plan: string;
@@ -26,7 +27,7 @@ export class ViewingPlanComponent implements OnInit {
 
   ngOnInit(): void {
     var initPlan = (params: Params) =>
-      this.plan = this.storage.getMyPlans().find(plan => plan.title == params.plan);
+      this.plan = this.storage.getPlans(MockData.myId).find(plan => plan.title == params.plan);
 
     this.route.params.subscribe(initPlan);
   }

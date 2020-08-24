@@ -4,6 +4,7 @@ import { EditorComponent } from '../editor/editor.component';
 import { StorageService } from '../storage.service';
 import { Plan } from '../models/plan';
 import { ActivatedRoute } from '@angular/router';
+import { AppService } from '../app.service';
 
 export declare type Params = {
   id: string;
@@ -18,6 +19,7 @@ export class EditingPlanComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
+    private appService: AppService,
     private storage: StorageService,
   ) { }
 
@@ -27,9 +29,11 @@ export class EditingPlanComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     var initPlan = (params: Params) => {
-      this.plan = this.storage.getMyPlans().find(plan => plan.id == params.id);
+      this.plan = this.storage.getPlan(params.id);
+     
 
       if (this.plan == null) {
+        console.log("this.plan == null; not my plan");
         this.plan = new Plan({
           id: params.id,
           title: "Untitled",
@@ -49,14 +53,9 @@ export class EditingPlanComponent implements OnInit, AfterViewInit {
   save(): void {
     this.plan.content = this.editor.getMarkdown();
     this.plan.lastchangeAt = new Date();
-
-    var plans = this.storage.getMyPlans().filter(value => value.id != this.plan.id);
-
-    plans.push(this.plan);
-    this.storage.setMyPlans(plans);
+    this.appService.addMyPlan(this.plan);
 
     this.location.back();
   }
 }
-
 
