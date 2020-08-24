@@ -50,4 +50,17 @@ export class PlanListComponent implements OnInit {
     this.dataSource = this.dataSource.filter(value => value.id != plan.id);
     this.service.deleteMyPlan(plan.id);
   }
+
+  static imgs=[
+    "https://res.cloudinary.com/www-virgin-com/virgin-com-prod/sites/virgin.com/files/Articles/Getty/finland_education_getty_0.jpg",
+  ]
+
+  getImg(plan: Plan): string {
+    if(plan.content.includes("http")){
+      // TODO: 偵測content中的圖片作為預覽圖
+      return "";
+    }else{
+      return PlanListComponent.imgs[Math.random() * Math.floor(PlanListComponent.imgs.length-1)];
+    }
+  }
 }

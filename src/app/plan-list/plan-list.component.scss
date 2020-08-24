@@ -14,3 +14,18 @@ mat-card-subtitle {
 ng-container{
     margin-right: 15px;
 }
+
+// https://stackoverflow.com/questions/51920250/angular-material-6-grid-list-align-items-and-justify-content-to-flex-start
+// https://stackoverflow.com/questions/37386396/text-align-in-md-grid-tile-angular-material-doesnt-work
+
+// https://stackblitz.com/edit/angular-wqk8tr-nxxm6h?file=app%2Fgrid-list-dynamic-example.ts
+
+mat-grid-tile{
+    text-align: left !important;
+}
+
+::ng-deep mat-grid-tile mat-figure{
+    justify-content: flex-start;
+   align-items: flex-start;
+
+}
