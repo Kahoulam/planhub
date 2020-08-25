@@ -40,3 +40,7 @@ ng-container{
 ::ng-deep mat-grid-tile.action .mat-figure{
     justify-content: flex-end !important;
 }
+
+::ng-deep mat-grid-tile.little .mat-figure{
+    font-size: 12px;
+}

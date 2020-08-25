@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Plan } from '../models/plan';
 import { AppService } from '../app.service';
+import { StorageService } from '../storage.service';
 import { RouterLink } from '../constant';
 
 @Component({
@@ -13,6 +14,7 @@ export class PlanListComponent implements OnInit {
 
   constructor(
     private service: AppService,
+    public storage: StorageService,
   ) { }
 
   routerLink = RouterLink;
@@ -29,26 +31,25 @@ export class PlanListComponent implements OnInit {
   }
 
   isStarred(plan: Plan): boolean {
-    return this.getStarredPlanIds().includes(plan.id);
-  }
-
-  getStarredPlanIds(){
-    let ret=[]
-    this.service.getStarredPlans().forEach(plan=> ret.push(plan.id) )
-    return ret;
+    return this.service.getMyStarredPlanIds().includes(plan.id);
   }
 
   setStar(plan: Plan): void {
     if (this.isStarred(plan)) {
-      this.service.deleteStarredPlan(plan.id);
+      this.service.deleteMyStarredPlan(plan.id);
     } else {
-      this.service.postStarredPlan(plan.id);
+      this.service.postMyStarredPlan(plan.id);
     }
   }
 
-  deletePlan(plan: Plan): void {
+  deleteMyPlan(plan: Plan): void {
     this.dataSource = this.dataSource.filter(value => value.id != plan.id);
     this.service.deleteMyPlan(plan.id);
+  }
+
+  getForkFrom(plan:Plan){
+    let ret=this.storage.getPlan(plan.id).forkFrom
+    return ret===undefined?"":"fork from: "+ret
   }
 
   static imgs=[

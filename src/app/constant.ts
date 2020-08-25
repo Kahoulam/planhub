@@ -27,7 +27,7 @@ export class MockData { // TODO: replace with MySQL
     public static myId=Column.MY_PLANS;
     public static PLANS = <Plan[]>[
         {
-            id: "template1", title: "搜尋演算法教案", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"], content:
+            id: "template1", title: "搜尋演算法教案", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"],forkFrom:"王曉明/演算法概論", content:
                 `# 搜尋演算法教案範例
             
             | 單元名稱 | 搜尋演算法 | 教學設計者 |Mengting |
@@ -57,7 +57,7 @@ export class MockData { // TODO: replace with MySQL
             |教學活動資源|Akinator 神燈精靈遊戲:https://en.akinator.com|
             |教學設備|電腦教室、筆|
             ` },
-        { id: "1", title: "只有我的星星", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId],license:"MIT license",issue:["just talk"],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方",tags:["曝克牌","小學","一年級"]},
+        { id: "1", title: "只有我的星星", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId],license:"MIT license",issue:["just talk"],forkFrom:"王曉明/星星演算法",content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方",tags:["曝克牌","小學","一年級"]},
         { id: "2", title: "我不喜歡我自己", lastchangeAt: new Date('2020-03-08'),starred:[],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方" },
         { id: "3", title: "沒有我的星星", lastchangeAt: new Date('2020-03-08'),starred:["nonPlansMan"],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方" },
         { id: "4", title: "櫥窗裡的”衣”想世界", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId,"nonPlansMan"],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方" },
@@ -73,8 +73,8 @@ export class MockData { // TODO: replace with MySQL
     ];
 
     public static USERS = <User[]>[
-        { id: MockData.myId, plans: ["template1","2","3","4","5"], lastchangeAt: new Date("2020-03-08") },
-        { id:"nonPlansMan"}
+        { id: MockData.myId, plans: ["template1","2","3","4","5"],nick:"Mengting", lastchangeAt: new Date("2020-03-08") },
+        { id:"nonPlansMan",nick:"Non Plans Man", plans: ["1","6","7","8","9","10","11","12","13"]}
     ];
 
 }

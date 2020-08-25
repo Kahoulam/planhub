@@ -7,8 +7,8 @@
                 <span>{{plan.title}}</span>
             </mat-card-title>
         </mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1">writer</mat-grid-tile>
-        <mat-grid-tile [colspan]="2" [rowspan]="1"> fork from </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" class="little">{{ this.storage.getWriter(plan).nick}}</mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" class="little">{{getForkFrom(plan)}}</mat-grid-tile>
         <mat-grid-tile [colspan]="1" [rowspan]="1">
             <button mat-icon-button disabled>
                 <mat-icon>question_answer</mat-icon>
@@ -35,7 +35,7 @@
         </mat-grid-tile>
 
         <!--row 4-->
-        <mat-grid-tile [colspan]="5" [rowspan]="1" class="left">
+        <mat-grid-tile [colspan]="6" [rowspan]="1" class="left">
             <mat-chip-list>
                 <td style="margin-right:5px;">
                     <mat-icon>star_border</mat-icon>
@@ -49,7 +49,7 @@
                {{ "更新時間: "+(plan.lastchangeAt | date:'yyyy/MM/dd') }}
             </mat-chip-list>
         </mat-grid-tile>
-         <mat-grid-tile [colspan]="5" [rowspan]="1" class="action">
+         <mat-grid-tile [colspan]="4" [rowspan]="1" class="action">
             <mat-card-actions>
                 <button mat-icon-button disabled>
                     <mat-icon>link</mat-icon>
@@ -76,7 +76,7 @@
                     <mat-icon>edit</mat-icon>
                 </button>
     
-                <button mat-icon-button *ngIf="!plan.isExternal" (click)="deletePlan(plan)">
+                <button mat-icon-button *ngIf="!plan.isExternal" (click)="deleteMyPlan(plan)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-card-actions>

@@ -118,13 +118,9 @@ export class StorageService {
 	/* Plan Starred */
 
 	getStarredPlanIds(giver: string): string[] {
-		return Object.values(this.getStarredPlans(giver)).map(
-			function(plan){
-				if(plan.starred.includes(giver)){
-					return plan.id
-				}
-			}
-		);
+		let ret=[];
+		this.getStarredPlans(giver).forEach(plan=> ret.push(plan.id) )
+		return ret;
 	}
 
 	addStarredPlanId(giver: string, planId: string) {
@@ -144,6 +140,10 @@ export class StorageService {
 	getPlans(writer: string): Plan[] {
 		let planIds =this.getDBUsers().find(user => user.id==writer).plans;
 		return this.getDBPlans().filter(plan=> planIds.includes(plan.id) );
+	}
+
+	getWriter(plan: Plan): User {
+		return this.getDBUsers().find(user=> user.plans.includes(plan.id) );
 	}
 
 	getStarredPlans(giver: string): Plan[] {

@@ -41,11 +41,11 @@ export class AppService {
 
 	/* Starred Plan */
 
-	getStarredPlans(): Plan[] {
+	getMyStarredPlans(): Plan[] {
 		return this.myStarredPlans;
 	}
 
-	postStarredPlan(id: string): void {
+	postMyStarredPlan(id: string): void {
 		if (!this.myStarredPlans.find(plan => plan.id===id)) {
 			this.storage.addStarredPlanId(this.myId, id);
 			this.myStarredPlans=this.storage.getStarredPlans(this.myId);
@@ -56,7 +56,7 @@ export class AppService {
 		}
 	}
 
-	deleteStarredPlan(id: string): void {
+	deleteMyStarredPlan(id: string): void {
 		this.storage.deleteStarredPlanId(this.myId, id);
 		this.myStarredPlans=this.storage.getStarredPlans(this.myId);
 
@@ -72,6 +72,12 @@ export class AppService {
 		// return new Promise<Plan[]>(resolve => resolve(plans.concat(externalPlans)));
 		// let plans = this.storage.getStarredPlans(this.myId)
 		return new Promise<Plan[]>(resolve => resolve(this.myStarredPlans));
+	}
+
+	getMyStarredPlanIds(): string[] {
+		let ret=[];
+		this.getMyStarredPlans().forEach(plan=> ret.push(plan.id) )
+		return ret;
 	}
 
 	/* My Plan */
