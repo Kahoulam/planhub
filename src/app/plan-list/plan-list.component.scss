@@ -2,6 +2,7 @@ mat-card {
     display: inline-block;
     width: calc(100vw - 350px);
     margin: 16px;
+    padding: 20px 30px 10px 30px;
 }
 
 mat-card-subtitle {
@@ -20,12 +21,22 @@ ng-container{
 
 // https://stackblitz.com/edit/angular-wqk8tr-nxxm6h?file=app%2Fgrid-list-dynamic-example.ts
 
-mat-grid-tile{
-    text-align: left !important;
+::ng-deep mat-card-header .mat-card-header-text{
+    margin:0;
 }
 
-::ng-deep mat-grid-tile mat-figure{
-    justify-content: flex-start;
-   align-items: flex-start;
+::ng-deep mat-grid-tile.content .mat-figure{
+    align-items: flex-start !important;
+}
 
+::ng-deep mat-grid-tile.content .mat-figure p{
+    margin:0;
+}
+
+::ng-deep mat-grid-tile.left .mat-figure{
+    justify-content: flex-start !important;
+}
+
+::ng-deep mat-grid-tile.action .mat-figure{
+    justify-content: flex-end !important;
 }

@@ -56,11 +56,12 @@ export class PlanListComponent implements OnInit {
   ]
 
   getImg(plan: Plan): string {
-    if(plan.content.includes("http")){
+    if(plan.content.includes(".jpg")){
       // TODO: 偵測content中的圖片作為預覽圖
       return "";
     }else{
-      return PlanListComponent.imgs[Math.random() * Math.floor(PlanListComponent.imgs.length-1)];
+      // return PlanListComponent.imgs[Math.random() * Math.floor(PlanListComponent.imgs.length-1)];
+      return "";
     }
   }
 }
