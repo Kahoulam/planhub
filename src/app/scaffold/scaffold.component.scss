@@ -101,9 +101,15 @@ mat-sidenav-container {
     padding-right:0 !important;
 }
 
-::ng-deep mat-panel-description{
+::ng-deep mat-expansion-panel-header mat-panel-description{
     font-size: 12px !important;
+    width: 100px !important;
+    justify-content: center !important;
+    align-items: center !important;
+
 }
+
+mat-expansion-panel-header-description{}
 
 // ::ng-deep .cdk-overlay-connected-position-bounding-box{
 //     left:274px !important;
