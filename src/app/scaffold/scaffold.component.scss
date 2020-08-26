@@ -81,3 +81,26 @@ mat-sidenav-container {
 .mat-form-field + .mat-form-field {
     margin-left: 8px;
   }
+
+::ng-deep .NotifyBar{
+    position: absolute !important;
+    right: 0 !important;
+}
+
+::ng-deep .mat-menu-panel{
+    width: 500px !important;
+    max-width:none !important;
+}
+
+::ng-deep  .mat-expansion-panel{
+    margin:10px !important;
+    padding: 5px 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-header{
+    padding-right:0 !important;
+}
+
+::ng-deep mat-panel-description{
+    font-size: 12px;
+}

@@ -18,7 +18,7 @@ export class Notify{
     msg: string;
     link: string;
    
-    lastchangeAt: Date;
+    lastchangeAt: Date=new Date();
 
     isReaded:boolean;
 

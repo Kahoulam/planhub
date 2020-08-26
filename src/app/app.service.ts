@@ -91,7 +91,7 @@ export class AppService {
 		this.myPlans= this.storage.getPlans(this.myId);
 
 		this.notifyService.add(new Notify({
-			title:"add plan",msg:",plan:"+plan.id
+			title:"你 新增了一個標題為「"+plan.title+"」的教案",msg:"授權狀況: 沒有甚麼特別的"
 		}))
 	}
 

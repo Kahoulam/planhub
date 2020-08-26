@@ -10,20 +10,102 @@
         </mat-form-field>
 
     </div>
-    <div style="position: absolute;right: 0;">
-        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-        <mat-menu #menu="matMenu" >
-            <mat-expansion-panel hideToggle *ngFor='let msg of notifies' (click)="$event.stopPropagation()">
+    <div class="NotifyBar">
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>notifications</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" style="width: 200px;">
+            <!-- <mat-expansion-panel hideToggle *ngFor='let msg of notifies' (click)="$event.stopPropagation()">
                 <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    {{msg.title}}
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    {{msg.msg}}
-                  </mat-panel-description>
+                    <mat-panel-title>
+                        {{msg.title}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{msg.lastchangeAt | date:'yyyy/MM/dd'}}
+                    </mat-panel-description>
                 </mat-expansion-panel-header>
-                <p>This is the primary content of the panel.</p>
-              </mat-expansion-panel>
+                <p><a href="{{ msg.link}}">{{ msg.msg}}</a></p>
+            </mat-expansion-panel> -->
+
+            <!-- DEMO -->
+            <mat-expansion-panel hideToggle (click)="$event.stopPropagation()">
+                <mat-expansion-panel-header>
+                    
+                    <mat-panel-title>
+                        <mat-icon>account_circle</mat-icon> 王曉明 發布了「搜尋演算法教案」的 教案。 MIT license
+                    </mat-panel-title>
+                    <mat-panel-description>
+                       3小時前
+                    </mat-panel-description>
+                    <button mat-icon-button disabled>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button disabled>
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                    fork from: 王曉明/演算法概論...<a href="/user001/搜尋演算法教案">查看更多</a> 
+                </mat-panel-description>
+                <mat-panel-description>
+                    # 搜尋演算法教案範例 | 單元名稱 | 搜尋演算法 | 教學設計者 |Mengting | | -------- | ---...
+                </mat-panel-description>
+                
+            </mat-expansion-panel>
+
+            <mat-expansion-panel hideToggle (click)="$event.stopPropagation()">
+                <mat-expansion-panel-header>
+                    
+                    <mat-panel-title>
+                        <mat-icon>account_circle</mat-icon> Non Plans Man 發布了「只有我的星星」的 教案。 通用授權
+                    </mat-panel-title>
+                    <mat-panel-description>
+                       3小時前
+                    </mat-panel-description>
+                    <button mat-icon-button disabled>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button disabled>
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                    fork from: 王曉明/星星演算法...<a href="/user001/只有我的星星">查看更多</a> 
+                </mat-panel-description>
+                <mat-panel-description>
+                    搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方...
+                </mat-panel-description>
+                
+            </mat-expansion-panel>
+
+            <mat-expansion-panel hideToggle (click)="$event.stopPropagation()">
+                <mat-expansion-panel-header>
+                    
+                    <mat-panel-title>
+                        <mat-icon>account_circle</mat-icon> Mengting 發布了「詩與圖的對話」的 教案。 通用授權
+                    </mat-panel-title>
+                    <mat-panel-description>
+                       3小時前
+                    </mat-panel-description>
+                    <button mat-icon-button disabled>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button disabled>
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+
+                </mat-expansion-panel-header>
+                <mat-panel-description>
+                   <a href="/user001/詩與圖的對話">查看更多</a> 
+                </mat-panel-description>
+                <mat-panel-description>
+                    搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方...
+                </mat-panel-description>
+                
+            </mat-expansion-panel>
+
         </mat-menu>
     </div>
 </mat-toolbar>
