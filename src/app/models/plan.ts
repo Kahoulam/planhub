@@ -45,7 +45,7 @@ export class Plan{
     /**
     * 外部來源檔案格式
     */
-    formats: string;
+    formats: string="";
     /**
      * 最後修改時間
      */

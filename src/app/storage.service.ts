@@ -79,10 +79,12 @@ export class StorageService {
 	searchPlan(keyword: string): Promise<Plan[]> {
 		const keywords = keyword.split(" ").filter(text => text != "");
 		let includeKeywords = (plan: Plan) => keywords.every(keyword =>
-			plan.title.includes(keyword) || plan.formats.includes(keyword)
+			plan.title.includes(keyword) || 
+			plan.formats.includes(keyword) ||
+			plan.tags.includes(keyword)
 		);
 		let result = this.getDBPlans().filter(includeKeywords);
-
+		console.log(result)
 		return new Promise<Plan[]>(resolve => resolve(result));
 	}
 

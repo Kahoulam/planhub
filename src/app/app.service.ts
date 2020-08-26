@@ -31,7 +31,7 @@ export class AppService {
 
 		let initExternalPlnas = (): Promise<string> => new Promise(resolve => {
 		  if (this.storage.getExternalPlans().length == 0) {
-			this.crawlService.getData().then(plans => this.storage.setExternalPlans(plans));
+			// this.crawlService.getData().then(plans => this.storage.setExternalPlans(plans));
 		  }
 	
 		  resolve();

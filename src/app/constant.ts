@@ -56,7 +56,7 @@ export class MockData { // TODO: replace with MySQL
             |---|---|
             |教學活動資源|Akinator 神燈精靈遊戲:https://en.akinator.com|
             |教學設備|電腦教室、筆|
-            ` },
+            ` ,tags:['年級:1',"科目:電腦"]},
         { id: "1", title: "只有我的星星", lastchangeAt: new Date('2020-03-08'),starred:[MockData.myId],license:"MIT license",issue:["just talk"],forkFrom:"王曉明/星星演算法",content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方",tags:["曝克牌","小學","一年級"]},
         { id: "2", title: "我不喜歡我自己", lastchangeAt: new Date('2020-03-08'),starred:[],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方" },
         { id: "3", title: "沒有我的星星", lastchangeAt: new Date('2020-03-08'),starred:["nonPlansMan"],content:"搜尋法。 點出前述所提及的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方的撲克牌尋找方" },

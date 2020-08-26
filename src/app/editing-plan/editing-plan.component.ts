@@ -33,7 +33,6 @@ export class EditingPlanComponent implements OnInit, AfterViewInit {
      
 
       if (this.plan == null) {
-        console.log("this.plan == null; not my plan");
         this.plan = new Plan({
           id: params.id,
           title: "Untitled",

@@ -10,6 +10,7 @@
             </button> -->
     </mat-form-field>
 
+
   </div>
   <div class="NotifyBar">
     <button mat-button [matMenuTriggerFor]="notifyList">
@@ -48,11 +49,9 @@
         <td> 作者 </td>
         <td>
           <mat-form-field>
-            <mat-label>Mengting</mat-label>
-            <input matInput type="text">
+            <input matInput type="text" disabled>
           </mat-form-field>
         </td>
-        <!-- <td> 輸出: writer:Mengting</td> -->
       </tr>
 
       <!-- row2 -->
@@ -60,37 +59,25 @@
         <td>日期</td>
         <td>
           <mat-form-field>
-            <input matInput type="date">
+            <input matInput type="date" disabled>
           </mat-form-field>
         </td>
         <!-- <td> 輸出: date:date</td> -->
       </tr>
 
       <!-- row3 -->
-      <tr>--------------------------</tr>
+      <tr><h4>熱門標籤:</h4> </tr>
 
       <!-- row4 -->
       <tr *ngFor="let tagKey of getHotTags()">
         <td> {{tagKey}}</td>
         <td>
           <mat-form-field>
-            <mat-label>1</mat-label>
             <input matInput type="text" [(ngModel)]="keyWordTags[tagKey]" name='{{tagKey}}'>
           </mat-form-field>
         </td>
-		<td> 輸出: {{tagKey}}:1</td>
+		    <td><code style="color: gray;padding-left:40px; ">{{tagKey}}:{{keyWordTags[tagKey]}}</code></td>
 	  </tr>
-
-	  <!-- <tr>
-        <td> 年級</td>
-        <td>
-          <mat-form-field>
-            <mat-label>1</mat-label>
-            <input matInput type="text" [(ngModel)]="keyWordTags['年級']" name='年級'>
-          </mat-form-field>
-        </td>
-		<td> 輸出: 年級:1</td>
-	  </tr> -->
 	  
 	  <tr>
 		<button mat-raised-button color="accent" (click)="onSearch()">search</button>
