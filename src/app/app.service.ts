@@ -14,7 +14,6 @@ import { MockData } from './constant';
 export class AppService {
 	private myStarredPlans: Plan[];
 	private myPlans: Plan[];
-	private externalPlans: Plan[];
 	private myId: string;
 
 	constructor(
@@ -23,21 +22,33 @@ export class AppService {
 		private crawlService: CrawlService,
 		private notifyService: NotifyService,
 	) {
-		this.storage.mockDataInit();
 		this.myId = MockData.myId;
+		this.initStorage().then(() => this.initValues());
+	}
+
+	private initStorage(): Promise<void> {
+		this.storage.mockDataInit();
+
+		let initExternalPlnas = (): Promise<string> => new Promise(resolve => {
+		  if (this.storage.getExternalPlans().length == 0) {
+			this.crawlService.getData().then(plans => this.storage.setExternalPlans(plans));
+		  }
+	
+		  resolve();
+		});
+
+		let initPlnas = (): void => {
+			this.storage.getExternalPlans().forEach(plan=>this.storage.addPlan(this.myId,plan))
+		};
+	
+		return initExternalPlnas().then(initPlnas);
+	  }
+	
+	  private initValues(): void {
 		this.myStarredPlans = this.storage.getStarredPlans(this.myId);
 		this.myPlans = this.storage.getPlans(this.myId);
-		// this.externalPlans = this.storage.getExternalPlans();
-
-		// if (this.externalPlans.length == 0) {
-		// 	this.crawlService.getData().then(plans => {
-		// 		this.externalPlans = plans;
-		// 		this.storage.setExternalPlans(plans);
-		// 	});
-		// }
-
 		this.myPlans.sort((a, b) => b.lastchangeAt.getTime() - a.lastchangeAt.getTime());
-	}
+	  }
 
 	/* Starred Plan */
 
@@ -107,24 +118,17 @@ export class AppService {
 	/* Other */
 
 	searchPlan(keyword: string): Promise<Plan[]> {
-		const keywords = keyword.split(" ").filter(text => text != "");
-		let includeKeywords = (plan: Plan) => keywords.every(keyword =>
-			plan.title.includes(keyword) || plan.formats.includes(keyword)
-		);
-		let result = this.externalPlans.filter(includeKeywords);
-
-		return new Promise<Plan[]>(resolve => resolve(result));
+		return this.storage.searchPlan(keyword);
 	}
 
-	getNew(): Promise<string> {
-		const url = "https://codimd.schl.tw/api/new";
-		let getNewId = (error: HttpErrorResponse) => {
-			return Math.random().toString(16).slice(2);
-			// return error.url.split('/').pop();
-		};
-
-		return this.httpClient.get<string>(url)
-			.toPromise()
-			.catch(getNewId);
-	}
+	async getNew(): Promise<string> {
+		let untitledPlan = new Plan({
+		  id: Math.random().toString(16).slice(2),
+		  title: "Untitled",
+		  lastchangeAt: new Date(),
+		});
+		this.addMyPlan(untitledPlan)
+		return untitledPlan.id;
+	
+	  }
 }

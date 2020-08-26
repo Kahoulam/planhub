@@ -17,7 +17,7 @@ export class StorageService {
 		this.set("plans",MockData.PLANS);
 		this.set("users",MockData.USERS);
 	}
-
+	
 	getExternalPlans(): Plan[] {
 		let result = this.get(Column.EX_PLANS);
 		if (result == null) {
@@ -75,6 +75,17 @@ export class StorageService {
 	getPlan(planId: string): Plan {
 		return this.getDBPlans().find(plan=> planId===plan.id);
 	}
+
+	searchPlan(keyword: string): Promise<Plan[]> {
+		const keywords = keyword.split(" ").filter(text => text != "");
+		let includeKeywords = (plan: Plan) => keywords.every(keyword =>
+			plan.title.includes(keyword) || plan.formats.includes(keyword)
+		);
+		let result = this.getDBPlans().filter(includeKeywords);
+
+		return new Promise<Plan[]>(resolve => resolve(result));
+	}
+
 
 	addPlan(userId:string,newPlan: Plan) {
 		this.deletePlan(newPlan.id,newPlan)

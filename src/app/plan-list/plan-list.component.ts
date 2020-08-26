@@ -57,7 +57,7 @@ export class PlanListComponent implements OnInit {
   ]
 
   getImg(plan: Plan): string {
-    if(plan.content.includes(".jpg")){
+    if(plan.content!==undefined && plan.content.includes(".jpg")){
       // TODO: 偵測content中的圖片作為預覽圖
       return "";
     }else{
